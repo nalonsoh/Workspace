@@ -163,8 +163,8 @@ metadata:
   name: ingress-controller-service
 spec:
   ports:
-  - port: 8761
-    targetPort: eureka-port
+  - port: 80
+    targetPort: http
     protocol: TCP
   selector:
     app: nginx-ingress-controller
