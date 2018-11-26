@@ -1,8 +1,8 @@
 spring:
   application:
     name: hystrix-console
-  rabbitmq:
-    host: maquinavirtual
+#  rabbitmq:
+#    host: rabbit-mq-service
     
 server:
   port: 8100
@@ -26,4 +26,4 @@ eureka:
     enabled: true
     registerWithEureka: false
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://eureka-server-service:8761/eureka

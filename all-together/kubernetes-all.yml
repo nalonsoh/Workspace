@@ -76,6 +76,70 @@ spec:
           containerPort: 8090
 
 ---
+# DEPLOYMENT: Hystrix - console
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: hystrix-console-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ribbon-client
+    spec:
+      containers:
+      - name: hystrix-console
+        image: noelalonso1/hystrix-console
+        ports:
+        - name: hystrix-console-port
+          containerPort: 8100
+
+---
+# INGRESS CONTOLLER
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-ingress-controller-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: nginx-ingress-controller
+    spec:
+      containers:
+        - name: nginx-ingress-lb
+          image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.17.1
+          args:
+            - /nginx-ingress-controller
+            - --default-backend-service=$(POD_NAMESPACE)/echoheaders-default
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          ports:
+          - name: http
+            containerPort: 80
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 10254
+              scheme: HTTP
+            initialDelaySeconds: 10
+            timeoutSeconds: 1
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 10254
+              scheme: HTTP
+
+---
 apiVersion: v1
 kind: Service
 metadata:

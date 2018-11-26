@@ -2,7 +2,7 @@ spring:
   application:
     name: turbine-stream
   rabbitmq:
-    host: maquinavirtual
+    host: rabbit-mq-service
    
 server:
   port: 8989
