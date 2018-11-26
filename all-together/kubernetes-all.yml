@@ -1,3 +1,4 @@
+# DEPLOYMENT:  eureka-server
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -17,6 +18,7 @@ spec:
           containerPort: 8761
 
 ---
+# DEPLOYMENT: Rabbit MQ
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -37,6 +39,7 @@ spec:
         - containerPort: 15672
 
 ---
+# DEPLOYMENT: eureka-client
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -57,6 +60,7 @@ spec:
           containerPort: 8080
 
 ---
+# DEPLOYMENT: client-ribbon-balancer
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
@@ -96,6 +100,27 @@ spec:
         ports:
         - name: hyst-cons-port
           containerPort: 8100
+
+---
+# DEPLOYMENT: Hystrix - console
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: turbine-stream-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: turbine-stream
+    spec:
+      containers:
+      - name: turbine-stream
+        image: noelalonso1/turbine-stream
+        imagePullPolicy: Always
+        ports:
+        - name: turbine-port
+          containerPort: 8989
 
 ---
 # INGRESS !!
@@ -222,6 +247,21 @@ spec:
     protocol: TCP
   selector:
     app: hystrix-console
+  type: ClusterIP
+
+---
+# SERVICE: turbine-stream
+apiVersion: v1
+kind: Service
+metadata:
+  name: turbine-stream-service
+spec:
+  ports:
+  - port: 8989
+    targetPort: turbine-port
+    protocol: TCP
+  selector:
+    app: turbine-stream
   type: ClusterIP
 
 ---
