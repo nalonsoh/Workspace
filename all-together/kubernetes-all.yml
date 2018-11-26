@@ -92,7 +92,7 @@ spec:
       - name: hystrix-console
         image: noelalonso1/hystrix-console
         ports:
-        - name: hystrix-console-port
+        - name: hyst-cons-port
           containerPort: 8100
 
 ---
