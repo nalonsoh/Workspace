@@ -86,7 +86,7 @@ spec:
   template:
     metadata:
       labels:
-        app: ribbon-client
+        app: hystrix-console
     spec:
       containers:
       - name: hystrix-console
@@ -129,8 +129,8 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: helloworld-service
-          servicePort: 80
+          serviceName: hystrix-console-service
+          servicePort: 8100
   - host: eureka.noelalonso.tk
     http:
       paths:
@@ -150,7 +150,7 @@ spec:
       paths:
       - path: /
         backend:
-          serviceName: ribbon-client-service
+          serviceName: rabbit-mq-service
           servicePort: 15672
 
 ---
@@ -205,6 +205,21 @@ spec:
     protocol: TCP
   selector:
     app: ribbon-client
+  type: ClusterIP
+
+---
+# SERVICE: hystrix-console
+apiVersion: v1
+kind: Service
+metadata:
+  name: hystrix-console-service
+spec:
+  ports:
+  - port: 8100
+    targetPort: hyst-cons-port
+    protocol: TCP
+  selector:
+    app: hystrix-console
   type: ClusterIP
 
 ---
