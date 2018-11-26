@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: client-ribbon-balancer-noel
+  profiles:
+    active: profile1
+  cloud:
+    config:
+      uri: http://config-server:8888
+#      uri: http://localhost:8888
+    
