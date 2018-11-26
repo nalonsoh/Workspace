@@ -1,8 +1,8 @@
 spring:
   application:
     name: hystrix-console
-#  rabbitmq:
-#    host: rabbit-mq-service
+  rabbitmq:
+    host: rabbit-mq-service
     
 server:
   port: 8100
