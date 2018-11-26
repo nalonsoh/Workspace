@@ -103,7 +103,7 @@ metadata:
   name: ingress-rules
 spec:
   rules:
-  - host: hello.example.com
+  - host: hello.noelalonso.tk
     http:
       paths:
       - path: /
