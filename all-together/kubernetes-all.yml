@@ -140,6 +140,38 @@ spec:
               scheme: HTTP
 
 ---
+# INGRESS !!
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-rules
+spec:
+  rules:
+  - host: hello.example.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: helloworld-service
+          servicePort: 80
+
+---
+# SERVICE: ingress-controller
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-server-service
+spec:
+  ports:
+  - port: 8761
+    targetPort: eureka-port
+    protocol: TCP
+  selector:
+    app: nginx-ingress-controller
+  type: LoadBalancer
+  
+---
+# SERVICE: eureka-server
 apiVersion: v1
 kind: Service
 metadata:
@@ -151,9 +183,10 @@ spec:
     protocol: TCP
   selector:
     app: eureka-server
-  type: LoadBalancer
+  type: ClusterIP
 
 ---
+# SERVICE: ribbon-client
 apiVersion: v1
 kind: Service
 metadata:
@@ -165,9 +198,10 @@ spec:
     protocol: TCP
   selector:
     app: ribbon-client
-  type: LoadBalancer
+  type: ClusterIP
 
 ---
+# SERVICE: rabbit-mq
 apiVersion: v1
 kind: Service
 metadata:
@@ -186,4 +220,4 @@ spec:
     nodePort: 31999
   selector:
     app: rabbit-mq
-  type: NodePort
+  type: ClusterIP
