@@ -96,50 +96,6 @@ spec:
           containerPort: 8100
 
 ---
-# INGRESS CONTOLLER
-apiVersion: extensions/v1beta1
-kind: Deployment
-metadata:
-  name: nginx-ingress-controller-deployment
-spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: nginx-ingress-controller
-    spec:
-      containers:
-        - name: nginx-ingress-lb
-          image: quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.17.1
-          args:
-            - /nginx-ingress-controller
-            - --default-backend-service=$(POD_NAMESPACE)/echoheaders-default
-          env:
-            - name: POD_NAME
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.name
-            - name: POD_NAMESPACE
-              valueFrom:
-                fieldRef:
-                  fieldPath: metadata.namespace
-          ports:
-          - name: http
-            containerPort: 80
-          livenessProbe:
-            httpGet:
-              path: /healthz
-              port: 10254
-              scheme: HTTP
-            initialDelaySeconds: 10
-            timeoutSeconds: 1
-          readinessProbe:
-            httpGet:
-              path: /healthz
-              port: 10254
-              scheme: HTTP
-
----
 # INGRESS !!
 apiVersion: extensions/v1beta1
 kind: Ingress
@@ -156,19 +112,28 @@ spec:
           servicePort: 80
 
 ---
-# SERVICE: ingress-controller
-apiVersion: v1
+# SERVICE: ingress-controller (controller creado con https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml)
 kind: Service
+apiVersion: v1
 metadata:
-  name: ingress-controller-service
+  name: ingress-nginx
+  namespace: ingress-nginx
+  labels:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
 spec:
-  ports:
-  - port: 80
-    targetPort: http
-    protocol: TCP
-  selector:
-    app: nginx-ingress-controller
+  externalTrafficPolicy: Local
   type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/part-of: ingress-nginx
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+#    - name: https
+#      port: 443
+#      targetPort: https
   
 ---
 # SERVICE: eureka-server
