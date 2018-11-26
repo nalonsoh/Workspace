@@ -1,0 +1,6 @@
+#!/bin/sh
+echo Starting Logstash ...
+logstash -f pipeline.conf >> logstash-logs/logstash.log &
+echo Logstash Started !!
+echo Bootstraping Service ...
+/usr/bin/java -jar app.jar

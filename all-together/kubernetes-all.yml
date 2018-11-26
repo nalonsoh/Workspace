@@ -1,0 +1,125 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: eureka-server-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: eureka-server
+    spec:
+      containers:
+      - name: eureka-server
+        image: noelalonso1/eureka-server
+        ports:
+        - name: eureka-port
+          containerPort: 8761
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: rabbit-mq-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rabbit-mq
+    spec:
+      hostname: rabbitmq
+      containers:
+      - name: rabbit-mq
+        image: rabbitmq:3.7.8-management-alpine
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: eureka-client-deployment
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: eureka-client
+    spec:
+      containers:
+      - name: eureka-client
+        image: noelalonso1/eureka-client
+        imagePullPolicy: Always
+        ports:
+        - name: spr-boot-port
+          containerPort: 8080
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ribbon-client-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ribbon-client
+    spec:
+      containers:
+      - name: ribbon-client
+        image: noelalonso1/ribbon-client
+        ports:
+        - name: spr-boot-port-2
+          containerPort: 8090
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka-server-service
+spec:
+  ports:
+  - port: 8761
+    targetPort: eureka-port
+    protocol: TCP
+  selector:
+    app: eureka-server
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ribbon-client-service
+spec:
+  ports:
+  - port: 8090
+    targetPort: spr-boot-port-2
+    protocol: TCP
+  selector:
+    app: ribbon-client
+  type: LoadBalancer
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbit-mq-service
+spec:
+  ports:
+  - port: 5672
+    targetPort: 5672
+    protocol: TCP
+    name: rabbit1
+    nodePort: 31889
+  - port: 15672
+    targetPort: 15672
+    protocol: TCP
+    name: rabbit2
+    nodePort: 31999
+  selector:
+    app: rabbit-mq
+  type: NodePort
