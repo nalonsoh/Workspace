@@ -158,6 +158,13 @@ spec:
         backend:
           serviceName: hystrix-console-service
           servicePort: 8100
+  - host: turbine-stream.noelalonso.tk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: turbine-stream-service
+          servicePort: 8989
   - host: eureka.noelalonso.tk
     http:
       paths:
