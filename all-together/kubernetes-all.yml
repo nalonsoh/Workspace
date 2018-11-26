@@ -110,6 +110,48 @@ spec:
         backend:
           serviceName: helloworld-service
           servicePort: 80
+  - host: noelalonso.tk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: helloworld-service
+          servicePort: 80
+  - host: www.noelalonso.tk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: helloworld-service
+          servicePort: 80
+  - host: hystrix-console.noelalonso.tk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: helloworld-service
+          servicePort: 80
+  - host: eureka.noelalonso.tk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: eureka-server-service
+          servicePort: 8761
+  - host: client.noelalonso.tk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: ribbon-client-service
+          servicePort: 8090
+  - host: rabbit.noelalonso.tk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: ribbon-client-service
+          servicePort: 15672
 
 ---
 # SERVICE: ingress-controller (controller creado con https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml)
