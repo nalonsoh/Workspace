@@ -71,6 +71,7 @@ spec:
       containers:
       - name: ribbon-client
         image: noelalonso1/ribbon-client
+        imagePullPolicy: Always
         ports:
         - name: spr-boot-port-2
           containerPort: 8090
@@ -91,6 +92,7 @@ spec:
       containers:
       - name: hystrix-console
         image: noelalonso1/hystrix-console
+        imagePullPolicy: Always
         ports:
         - name: hyst-cons-port
           containerPort: 8100
