@@ -1,0 +1,8 @@
+FROM docker.elastic.co/logstash/logstash:6.4.2
+MAINTAINER Noel Alonso Hernández <nalonsoh@viewnext.com>
+ARG JAR_FILE
+ADD target/${JAR_FILE} app.jar
+COPY target/scripts/ ./
+RUN cp ./docker-entrypoint.sh /tmp && rm -f ./docker-entrypoint.sh && chmod +x /tmp/docker-entrypoint.sh && cp /tmp/docker-entrypoint.sh ./ && mkdir logstash-logs
+EXPOSE 8080
+ENTRYPOINT ["./docker-entrypoint.sh"]
