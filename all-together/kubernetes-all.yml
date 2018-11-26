@@ -211,9 +211,11 @@ spec:
   - port: 5672
     targetPort: 5672
     protocol: TCP
+    name: rabbit1
   - port: 15672
     targetPort: 15672
     protocol: TCP
+    name: rabbit2
   selector:
     app: rabbit-mq
   type: ClusterIP
