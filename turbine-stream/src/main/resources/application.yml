@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: turbine-stream
+  rabbitmq:
+    host: maquinavirtual
+   
+server:
+  port: 8989
+    
+# Configurar el Discovery Client
+eureka:
+  client: 
+    enabled: false
+      
+#turbine:
+#  instanceUrlSuffix
+#    instance1: :8080/actuator/hystrix.stream
+#    instance2: :8081/actuator/hystrix.stream
