@@ -144,6 +144,26 @@ spec:
         backend:
           serviceName: helloworld-service
           servicePort: 80
+      - path: /hystrix-console
+        backend:
+          serviceName: hystrix-console-service
+          servicePort: 8100
+      - path: /turbine-stream
+        backend:
+          serviceName: turbine-stream-service
+          servicePort: 8989
+      - path: /eureka
+        backend:
+          serviceName: eureka-server-service
+          servicePort: 8761
+      - path: /ribbon
+        backend:
+          serviceName: ribbon-client-service
+          servicePort: 8090
+      - path: /rabbit
+        backend:
+          serviceName: rabbit-mq-service
+          servicePort: 15672
   - host: www.noelalonso.tk
     http:
       paths:
