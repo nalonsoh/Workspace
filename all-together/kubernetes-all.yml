@@ -129,7 +129,7 @@ kind: Ingress
 metadata:
   name: ingress-rules
   annotations:
-    ingress.kubernetes.io/rewrite-target: "/"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
   - host: hello.noelalonso.tk
