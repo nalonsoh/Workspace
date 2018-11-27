@@ -156,7 +156,7 @@ spec:
         backend:
           serviceName: eureka-server-service
           servicePort: 8761
-      - path: /ribbon
+      - path: /client
         backend:
           serviceName: ribbon-client-service
           servicePort: 8090
