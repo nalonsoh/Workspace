@@ -209,6 +209,22 @@ spec:
           serviceName: rabbit-mq-service
           servicePort: 15672
 
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-rules-2
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /turbine.stream
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /turbine.stream
+        backend:
+          serviceName: hystrix-console-service
+          servicePort: 8100
+
 ---
 # SERVICE: ingress-controller (controller creado con https://raw.githubusercontent.com/kubernetes/ingress-nginx/master/deploy/mandatory.yaml)
 kind: Service
