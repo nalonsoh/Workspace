@@ -208,7 +208,7 @@ spec:
         backend:
           serviceName: rabbit-mq-service
           servicePort: 15672
-
+---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -216,6 +216,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     nginx.ingress.kubernetes.io/rewrite-target: /turbine.stream
+    nginx.ingress.kubernetes.io/use-regex: "false"
 spec:
   rules:
   - http:
