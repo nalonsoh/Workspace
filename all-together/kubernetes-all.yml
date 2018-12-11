@@ -130,6 +130,7 @@ metadata:
   name: ingress-rules
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    ingress.kubernetes.io/add-base-url: /hystrix-console
 spec:
   rules:
   - host: hello.noelalonso.tk
