@@ -220,7 +220,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /turbine.stream
+      - path: /turbine
         backend:
           serviceName: hystrix-console-service
           servicePort: 8100
